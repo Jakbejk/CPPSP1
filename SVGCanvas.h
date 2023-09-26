@@ -4,6 +4,7 @@
 #include <map>
 #include "Shape.h"
 #include "Utils.h"
+#include <functional>
 
 struct SVGShape {
     std::map<std::string, std::string> attributes;

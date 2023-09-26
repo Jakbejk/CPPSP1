@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <sstream>
+#include <vector>
+#include "Shape.h"
 
 class Canvas {
 protected:
