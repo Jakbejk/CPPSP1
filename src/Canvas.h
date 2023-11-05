@@ -4,6 +4,7 @@
 #include <sstream>
 #include <vector>
 #include "Shape.h"
+#include "Utils.h"
 
 class Canvas {
 protected:
@@ -13,10 +14,11 @@ public:
     explicit Canvas(const std::string &size) {
         std::string tmpSize;
         std::istringstream stream(size);
-        if (std::getline(stream, tmpSize, 'x')) {
-            width = std::stoi(tmpSize);
+        if (isDimension(size)) {
+            std::getline(stream, tmpSize, 'x');
+            this->width = std::stoi(tmpSize);
             std::getline(stream, tmpSize);
-            height = std::stoi(tmpSize);
+            this->height = std::stoi(tmpSize);
         } else {
             throw std::runtime_error("Must be format of XXxXX");
         }

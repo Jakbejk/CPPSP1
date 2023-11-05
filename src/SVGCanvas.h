@@ -17,7 +17,7 @@ class SVGCanvas : public Canvas {
 private :
     std::vector<SVGShape> svgShapes;
 
-    void
+    static void
     addRelation(const std::function<void(SVGShape &)> &addParent, const std::function<void(SVGShape &)> &addSibling,
                 SVGShape &svgShape) {
         if (svgShape.shapeType == ShapeType::CIRCLE
@@ -106,10 +106,10 @@ private :
                                                                     shape.values[1].c_str());
                     if (!isRealNumber(shape.values[0]) ||
                         !isRealNumber(shape.values[1])) {
-                        throw std::runtime_error("Translate contains wrong data - x || y is not real number.");
+                        throw std::runtime_error("translate contains wrong data - x || y is not real number.");
                     }
                 } else {
-                    throw std::runtime_error("Translate should have exactly two parameters.");
+                    throw std::runtime_error("translate should have exactly two parameters.");
                 }
             } else if (shape.shapeType == ShapeType::ROTATE) {
                 if (shape.values.size() == 3) {
@@ -121,10 +121,10 @@ private :
                     if (!isRealNumber(shape.values[0]) ||
                         !isRealNumber(shape.values[1]) ||
                         !isRealNumber(shape.values[2])) {
-                        throw std::runtime_error("Rotate contains wrong data - x || y || a is not real number.");
+                        throw std::runtime_error("rotate contains wrong data - x || y || a is not real number.");
                     }
                 } else {
-                    throw std::runtime_error("Rotate should have exactly three parameters.");
+                    throw std::runtime_error("rotate should have exactly three parameters.");
                 }
             } else if (shape.shapeType == ShapeType::SCALE) {
                 if (shape.values.size() == 3) {
@@ -136,10 +136,10 @@ private :
                     if (!isRealNumber(shape.values[0]) ||
                         !isRealNumber(shape.values[1]) ||
                         !isRealNumber(shape.values[2])) {
-                        throw std::runtime_error("Scale contains wrong data - x || y || f is not real number.");
+                        throw std::runtime_error("scale contains wrong data - x || y || f is not real number.");
                     }
                 } else {
-                    throw std::runtime_error("Scale should have exactly four parameters.");
+                    throw std::runtime_error("scale should have exactly three parameters.");
                 }
             } else {
                 throw std::runtime_error("Unknown Shape type \"" + shape.name + "\".");

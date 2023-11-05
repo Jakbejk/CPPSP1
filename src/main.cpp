@@ -5,6 +5,7 @@
 #include <vector>
 #include <sstream>
 #include "SVGCanvas.h"
+#include "PmgCanvas.h"
 
 std::vector<Shape> parseShapes(BufferedReader &br) {
     std::vector<Shape> shapes;
@@ -66,9 +67,16 @@ int main(int argv, char **argc) {
         BufferedReader br(inputFile);
         BufferedWriter bw(outputFile);
         auto shapes = parseShapes(br);
-
-        SVGCanvas canvas(resolution);
-        auto content = canvas.draw(shapes);
+        std::string content;
+        if (outputFile.ends_with(".pgm")) {
+            PmgCanvas canvas(resolution);
+            content = canvas.draw(shapes);
+        } else if (outputFile.ends_with(".svg")) {
+            SVGCanvas canvas(resolution);
+            content = canvas.draw(shapes);
+        } else {
+            throw std::runtime_error("Invalid file format " + outputFile);
+        }
         bw << content;
         std::cout << "OK" << std::endl;
         std::cout << shapes.size() << std::endl;

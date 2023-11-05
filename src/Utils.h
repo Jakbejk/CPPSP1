@@ -8,7 +8,7 @@
 
 template<typename ... Args>
 std::string stringFormat(const std::string &format, Args ... args) {
-    int size_s = std::snprintf(nullptr, 0, format.c_str(), args ...) + 1; 
+    int size_s = std::snprintf(nullptr, 0, format.c_str(), args ...) + 1;
     if (size_s <= 0) { throw std::runtime_error("Error during formatting."); }
     auto size = static_cast<size_t>( size_s );
     std::unique_ptr<char[]> buf(new char[size]);
@@ -29,4 +29,9 @@ std::string trim(const std::string &str) {
 bool isRealNumber(const std::string &number) {
     std::regex reg(R"(^[+-]?(?:\d+\.?\d*|\d*\.\d+)$)");
     return std::regex_match(number, reg);
+}
+
+bool isDimension(const std::string &dimension) {
+    std::regex reg(R"(\d+x\d+)");
+    return std::regex_match(dimension, reg);
 }
