@@ -9,34 +9,30 @@ class PmgCanvas : public Canvas {
 private:
     static std::vector<Position> getCircle(const Shape &shape) {
         if (shape.shapeType == ShapeType::CIRCLE) {
+            checkCircleArgs(shape.values);
             double x, y, r;
-
-            try {
-                x = std::stod(shape.values[0]);
-                y = std::stod(shape.values[1]);
-                r = std::stod(shape.values[2]);
-                std::vector<Position> result;
-                for (int i = 0; i < r; i++) {
-                    for (int j = 0; j < r; j++) {
-                        if (i * i + j * j <= r * r && (i + 1) * (i + 1) + j * j > r * r) {
-                            result.emplace_back(x + i, y + j);
-                            result.emplace_back(x - i, y + j);
-                            result.emplace_back(x + i, y - j);
-                            result.emplace_back(x - i, y - j);
-                        }
+            x = std::stod(shape.values[0]);
+            y = std::stod(shape.values[1]);
+            r = std::stod(shape.values[2]);
+            std::vector<Position> result;
+            for (int i = 0; i < r; i++) {
+                for (int j = 0; j < r; j++) {
+                    if (i * i + j * j <= r * r && (i + 1) * (i + 1) + j * j > r * r) {
+                        result.emplace_back(x + i, y + j);
+                        result.emplace_back(x - i, y + j);
+                        result.emplace_back(x + i, y - j);
+                        result.emplace_back(x - i, y - j);
                     }
                 }
-                return result;
-            } catch (std::exception &e) {
-                std::cerr << "Error in method getCircle: " << e.what() << std::endl;
-                return std::vector<Position>{};
             }
+            return result;
         }
         return std::vector<Position>{};
     }
 
     static std::vector<Position> getRect(const Shape &shape) {
         if (shape.shapeType == ShapeType::RECT) {
+            checkRectArgs(shape.values);
             double x, y;
             double width, height;
             x = std::stod(shape.values[0]);
@@ -82,6 +78,7 @@ private:
 
     static std::vector<Position> getLine(const Shape &shape) {
         if (shape.shapeType == ShapeType::LINE) {
+            checkLineArgs(shape.values);
             try {
                 double x1, y1;
                 double x2, y2;
@@ -110,6 +107,7 @@ private:
     }
 
     static std::vector<Position> rotate(const std::vector<Position> &raster, const Shape &shape) {
+        checkRotateArgs(shape.values);
         std::vector<Position> calculated;
         double x, y, delta;
         x = std::stod(shape.values[0]);
@@ -122,7 +120,8 @@ private:
         return calculated;
     }
 
-    static std::vector<Position> Translate(const std::vector<Position> &raster, const Shape &shape) {
+    static std::vector<Position> translate(const std::vector<Position> &raster, const Shape &shape) {
+        checkTranslateArgs(shape.values);
         std::vector<Position> calculated;
         double x, y;
         x = std::stod(shape.values[0]);
@@ -135,6 +134,7 @@ private:
     }
 
     static std::vector<Position> scale(const std::vector<Position> &raster, const Shape &shape) {
+        checkScaleArgs(shape.values);
         std::vector<Position> calculated;
         double x, y, s;
         x = std::stod(shape.values[0]);
@@ -163,7 +163,7 @@ public:
             if (shape.shapeType == ShapeType::ROTATE) {
                 positionRaster = rotate(positionRaster, shape);
             } else if (shape.shapeType == ShapeType::TRANSLATE) {
-                positionRaster = Translate(positionRaster, shape);
+                positionRaster = translate(positionRaster, shape);
             } else if (shape.shapeType == ShapeType::SCALE) {
                 positionRaster = scale(positionRaster, shape);
             } else {
